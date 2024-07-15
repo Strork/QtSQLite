@@ -15,7 +15,9 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTableView>
@@ -34,6 +36,10 @@ public:
     QComboBox *comboBox;
     QLineEdit *editSelect;
     QPushButton *pushButton;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label;
+    QLineEdit *editCount;
 
     void setupUi(QWidget *factoryManage)
     {
@@ -54,7 +60,7 @@ public:
         DataInfo->setGeometry(QRect(40, 70, 751, 391));
         checkBox = new QCheckBox(factoryManage);
         checkBox->setObjectName(QStringLiteral("checkBox"));
-        checkBox->setGeometry(QRect(40, 490, 71, 31));
+        checkBox->setGeometry(QRect(40, 480, 81, 31));
         comboBox = new QComboBox(factoryManage);
         comboBox->setObjectName(QStringLiteral("comboBox"));
         comboBox->setGeometry(QRect(280, 20, 121, 31));
@@ -64,6 +70,22 @@ public:
         pushButton = new QPushButton(factoryManage);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(700, 480, 91, 31));
+        widget = new QWidget(factoryManage);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(210, 480, 371, 31));
+        horizontalLayout = new QHBoxLayout(widget);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        label = new QLabel(widget);
+        label->setObjectName(QStringLiteral("label"));
+
+        horizontalLayout->addWidget(label);
+
+        editCount = new QLineEdit(widget);
+        editCount->setObjectName(QStringLiteral("editCount"));
+
+        horizontalLayout->addWidget(editCount);
+
 
         retranslateUi(factoryManage);
 
@@ -78,6 +100,7 @@ public:
         udtButton->setText(QApplication::translate("factoryManage", "\346\237\245\350\257\242", Q_NULLPTR));
         checkBox->setText(QApplication::translate("factoryManage", "\345\205\250\351\200\211", Q_NULLPTR));
         pushButton->setText(QApplication::translate("factoryManage", "\351\207\215\347\275\256", Q_NULLPTR));
+        label->setText(QApplication::translate("factoryManage", "\346\234\254\346\254\241\346\237\245\350\257\242\345\205\261\350\277\224\345\233\236\346\235\241\347\233\256\346\225\260\351\207\217\357\274\232", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -67,7 +67,7 @@ void factoryManage::preUI()
 
     //添加表头
     QStringList headerlist;
-    headerlist << "传感器编号" << "传感器名称" << "关联设备" << "购买日期";
+    headerlist << "传感器编号" << "传感器名称" << "安装设备号" << "日期";
     standardModel->setHorizontalHeaderLabels(headerlist);
     ui->DataInfo->verticalHeader()->setVisible(false);//隐藏行号
     ui->DataInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -111,6 +111,10 @@ void factoryManage::initUI()
     }
     standardModel->removeRows(0,standardModel->rowCount());
     for (auto i : tablelist) addToModel(i);
+    ui->editCount->setText(QString::number(standardModel->rowCount()));
+    ui->editCount->setReadOnly(true);
+    ui->editSelect->clear();
+    ui->checkBox->setCheckState(Qt::Unchecked);
 }
 
 void factoryManage::on_addButton_clicked()
@@ -124,13 +128,9 @@ bool factoryManage::slot_addSensorData(CTableData &sensorData)
     bool f = DBSource->addData(sensorData);
     if (!f) {
         QMessageBox::information(this, "错误", "插入数据失败");
-
         return false;
     }
     initUI();//重新加载数据库
-    /*int n = standardModel->rowCount();
-    sensorData.setId(standardModel->item(n-1)->text().toInt()+1);
-    addToModel(sensorData);*/
     return true;
 }
 
@@ -188,6 +188,8 @@ bool factoryManage::slot_actUpdate()
 
 bool factoryManage::slot_actDelete()
 {
+    int f = QMessageBox::information(this,"警告","是否要删除所选数据",QMessageBox::Yes|QMessageBox::No);
+    if (f == QMessageBox::No) return false;
     //QModelIndex index = ui->DataInfo->currentIndex();
     int row = ui->DataInfo->currentIndex().row();
     int id = standardModel->item(row)->text().toInt();
@@ -252,11 +254,14 @@ void factoryManage::on_udtButton_clicked()
     //standardModel->clear();
     standardModel->removeRows(0,standardModel->rowCount());
     for (auto i : tablelist) addToModel(i);
+    ui->editCount->setText(QString::number(standardModel->rowCount()));
+    ui->editCount->setReadOnly(true);
 }
 
 
 void factoryManage::on_pushButton_clicked()
 {
+    ui->editSelect->clear();
     initUI();
 }
 

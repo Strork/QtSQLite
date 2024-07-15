@@ -29,7 +29,7 @@ bool CAddSensorDialog::clearData()
 bool CAddSensorDialog::displayData(QString name, int sid)
 {
     ui->editName->setText(name);
-    ui->editSID->setText(QString(sid));
+    ui->editSID->setText(QString::number(sid));
     QDateTime dateTime = QDateTime::currentDateTime();
     ui->editYear->setValue(dateTime.toString("yyyy").toInt());
     ui->editMonth->setValue(dateTime.toString("MM").toInt());
@@ -45,7 +45,7 @@ void CAddSensorDialog::initUI()
     //^-表示开头必须是负号。 -?表示负号的个数可以是0个或者一个 故^-?合起来表示开头可以以符号开头，但最多一个符号
     /*QRegExpValidator *regInt = new QRegExpValidator(this);
     regInt->setRegExp(QRegExp(QString("^-?\\d{1,}")));*/
-    QRegExp regName("^[a-zA-z0-9\u4e00-\u9fa5]{1,}$");
+    QRegExp regName("^[a-zA-Z0-9\u4e00-\u9fa5]{1,}$");
     ui->editName->setValidator(new QRegExpValidator(regName,this));
     ui->editSID->setValidator(new QIntValidator(0,99999999,this));
     QDateTime dateTime = QDateTime::currentDateTime();
@@ -88,7 +88,7 @@ void CAddSensorDialog::on_yesButton_clicked()
 {
     //确定按钮
     int sizeName = ui->editName->text().size();
-    if(sizeName <= 0 || sizeName >= 20)
+    if(sizeName <= 0 || sizeName > 20)
     {
         QMessageBox::information(this, "错误", "未输入名称，或名称过长");
         return;
@@ -105,10 +105,11 @@ void CAddSensorDialog::on_yesButton_clicked()
     sensorData.setData(this->updateID, sensorName, sID, sensorTime);
 
     if (isUpdate) emit sig_updateSensor(sensorData);
-    else emit sig_addSensor(sensorData);
-
-    //清空数据
-    clearData();
+    else {
+        emit sig_addSensor(sensorData);
+        //清空数据
+        clearData();
+    }
 }
 
 

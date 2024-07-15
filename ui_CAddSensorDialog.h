@@ -53,7 +53,7 @@ public:
     {
         if (CAddSensorDialog->objectName().isEmpty())
             CAddSensorDialog->setObjectName(QStringLiteral("CAddSensorDialog"));
-        CAddSensorDialog->resize(373, 238);
+        CAddSensorDialog->resize(373, 231);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);

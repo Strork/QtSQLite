@@ -122,25 +122,23 @@ bool CTableSQLite::updateData(CTableData &tableData)
         return false;
     }
     QSqlQuery query;
-    QString sql = QString("update sensor "
-                          "set name='%1' where id=%2").arg(tableData.getName(),QString::number(tableData.getId()));
+    QString numID = QString::number(tableData.getId());
+    QString sql = QString("update sensor set name='%1' where id=%2").
+                  arg(tableData.getName(),numID);
     if (!query.exec(sql)) {
         qDebug() << "Fail at update name";
         qDebug() << "sql error is:" << query.lastError().text();
         return false;
     }
-    sql = QString("update sensor "
-                  "set equip_id=%1 "
-                  "where id=%2").arg(QString::number(tableData.getSecond_id()),QString::number(tableData.getId()));
+    sql = QString("update sensor set equip_id=%1 where id=%2").
+          arg(QString::number(tableData.getSecond_id()),numID);
     if (!query.exec(sql)) {
         qDebug() << "Fail at update sid";
         qDebug() << "sql error is:" << query.lastError().text();
         return false;
     }
-    sql = QString("update sensor "
-                  "set buyday='%1' "
-                  "where id=%2").arg(tableData.getBuyday(),QString::number(tableData.getId()));
-
+    sql = QString("update sensor set buyday='%1' where id=%2").
+          arg(tableData.getBuyday(),numID);
     if (!query.exec(sql)) {
         qDebug() << "Fail at update buyday";
         qDebug() << "sql error is:" << query.lastError().text();
